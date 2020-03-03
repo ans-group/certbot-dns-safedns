@@ -91,4 +91,4 @@ python3 setup.py sdist bdist_wheel
 python3 -m twine upload dist/*
 ```
 
-> **Warning**: Use the username: `\__token__`, along with the token registered on pypi.
+> **Warning**: Use the username: `__token__`, along with the token registered on pypi.
