@@ -6,8 +6,11 @@ deploy:
   image: ${BUILDER_PATH} 
   tags:
     - docker
-  script: 
-    - sed 's/vX.X.X/{CI_COMMIT_TAG}/g' setup.py
+  script:
+    - echo "$CI_COMMIT_TAG" 
+    - echo "$TWINE_USERNAME" 
+    - echo "$TWINE_PASSWORD" 
+    - sed -i 's/vX.X.X/{CI_COMMIT_TAG}/g' setup.py
     - python3 setup.py sdist bdist_wheel
     - python -m twine upload dist/*
   only:
