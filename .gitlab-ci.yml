@@ -3,7 +3,7 @@ stages:
 
 deploy:
   stage: deploy
-  image: registry.devops.ukfast.co.uk/tom.couser/python-wheel:latest
+  image: ${BUILDER_PATH} 
   tags:
     - docker
   script: 
