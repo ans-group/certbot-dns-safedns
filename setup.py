@@ -31,6 +31,7 @@ setup(
     version=version,
     description="SafeDNS Authenticator plugin for Certbot",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/ukfast/certbot-dns-safedns",
     author="Certbot Project",
     author_email='client-dev@letsencrypt.org',
