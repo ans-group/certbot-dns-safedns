@@ -20,11 +20,18 @@ docs_extras = [
     'sphinx_rtd_theme',
 ]
 
+# read the contents of your README file
+from os import path
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='certbot-dns-safedns',
     version=version,
     description="SafeDNS Authenticator plugin for Certbot",
-    url='https://github.com/certbot/certbot',
+    long_description=long_description
+    url='https://github.com/ukfast/certbot-dns-safedns',
     author="Certbot Project",
     author_email='client-dev@letsencrypt.org',
     license='Apache License 2.0',
