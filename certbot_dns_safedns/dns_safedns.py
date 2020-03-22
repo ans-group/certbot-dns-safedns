@@ -75,7 +75,7 @@ class _SafeDNSLexiconClient(dns_common_lexicon.LexiconClient):
     def _handle_http_error(self, e, domain_name):
         hint = None
         if str(e).startswith('404 Not Found:'):
-            logger.debug("Zone '{0}' not not found in the account: {1}").format(domain_name, e)
+            logger.info("Zone '{0}' not not found in the account: {1}").format(domain_name, e)
             return False
 
         if str(e).startswith('400 Client Error:'):
