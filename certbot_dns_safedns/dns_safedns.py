@@ -74,11 +74,12 @@ class _SafeDNSLexiconClient(dns_common_lexicon.LexiconClient):
 
     def _handle_http_error(self, e, domain_name):
         hint = None
-        if str(e).startswith('404 Not Found:'):
-            logger.info("Zone '{0}' not not found in the account: {1}").format(domain_name, e)
+        if e.response.status_code == 404:
+            logger.info("Zone '{0}' not not found in the account: {1}".format(domain_name, e))
             return False
 
-        if str(e).startswith('400 Client Error:'):
+        if e.response.status_code == 400:
+        # if str(e).startswith('400 Client Error:'):
             hint = 'Are your API key and Secret key values correct?'
 
         return errors.PluginError('Error determining zone identifier for {0}: {1}.{2}'
