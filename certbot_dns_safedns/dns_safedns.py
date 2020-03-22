@@ -68,11 +68,7 @@ class _SafeDNSLexiconClient(dns_common_lexicon.LexiconClient):
     def __init__(self, auth_token, ttl):
         super(_SafeDNSLexiconClient, self).__init__()
 
-        config = dns_common_lexicon.build_lexicon_config('safedns', {
-            'ttl': ttl,
-        }, {
-            'auth_token': auth_token,
-        })
+        config = dns_common_lexicon.build_lexicon_config('safedns', {'ttl': ttl}, {'auth_token': auth_token})
 
         self.provider = safedns.Provider(config)
 
