@@ -79,7 +79,6 @@ class _SafeDNSLexiconClient(dns_common_lexicon.LexiconClient):
             return False
 
         if e.response.status_code == 400:
-        # if str(e).startswith('400 Client Error:'):
             hint = 'Are your API key and Secret key values correct?'
 
         return errors.PluginError('Error determining zone identifier for {0}: {1}.{2}'
