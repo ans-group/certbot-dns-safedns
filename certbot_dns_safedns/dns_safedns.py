@@ -80,8 +80,3 @@ class _SafeDNSLexiconClient(dns_common_lexicon.LexiconClient):
         return errors.PluginError('Error determining zone identifier for {0}: {1}.{2}'
                                   .format(domain_name, e, ' ({0})'.format(hint) if hint else ''))
 
-    def _handle_general_error(self, e, domain_name):
-        if domain_name in str(e) and str(e).endswith('not found'):
-            return
-
-        super(_SafeDNSLexiconClient, self)._handle_general_error(e, domain_name)
