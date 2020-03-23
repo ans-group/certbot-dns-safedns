@@ -68,24 +68,15 @@ class _SafeDNSLexiconClient(dns_common_lexicon.LexiconClient):
     def __init__(self, auth_token, ttl):
         super(_SafeDNSLexiconClient, self).__init__()
 
-        config = dns_common_lexicon.build_lexicon_config('safedns', {
-            'ttl': ttl,
-        }, {
-            'auth_token': auth_token,
-        })
+        config = dns_common_lexicon.build_lexicon_config('safedns', {'ttl': ttl}, {'auth_token': auth_token})
 
         self.provider = safedns.Provider(config)
 
     def _handle_http_error(self, e, domain_name):
         hint = None
-        if str(e).startswith('400 Client Error:'):
+        if e.response.status_code == 400:
             hint = 'Are your API key and Secret key values correct?'
 
         return errors.PluginError('Error determining zone identifier for {0}: {1}.{2}'
                                   .format(domain_name, e, ' ({0})'.format(hint) if hint else ''))
 
-    def _handle_general_error(self, e, domain_name):
-        if domain_name in str(e) and str(e).endswith('not found'):
-            return
-
-        super(_SafeDNSLexiconClient, self)._handle_general_error(e, domain_name)
