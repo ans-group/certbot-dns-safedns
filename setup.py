@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-version = 'v0.1.9'
+version = 'vX.X.X'
 
 # Remember to update local-oldest-requirements.txt when changing the minimum
 # acme/certbot version.
