@@ -1,30 +1,9 @@
 # SafeDNS Authenticator plugin for Certbot
 
 ## Quickstart
-Get the latest plugin image.
 ```bash
-docker run -it ukfast/certbot-dns-safedns:latest /bin/bash
+docker run -it -v $(pwd)/safedns.ini:/safedns.ini -v $(pwd):/etc/certbot ukfast/certbot-dns-safedns:latest 
 ```
-
-Add API key to safedns.ini
-```bash
-vim /safedns.ini
-```
-
-Run certbot with the SafeDNS plugin.
-```bash
-certbot certonly \
-  --authenticator certbot-dns-safedns:dns_safedns \
-  --certbot-dns-safedns:dns_safedns-credentials /safedns.ini \
-  --certbot-dns-safedns:dns_safedns-propagation-seconds 900 \
-  --server https://acme-v02.api.letsencrypt.org/directory \
-  -d 'example.com' \
-  -d '*.example.com'
-```
-
-Retrieve certs from ```/etc/letsencrypt/live/```
-
-
 
 ## Setup
 
