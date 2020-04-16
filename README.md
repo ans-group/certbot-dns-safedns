@@ -2,7 +2,7 @@
 
 ## Quickstart
 ```bash
-docker run -it -v $(pwd)/safedns.ini:/safedns.ini -v $(pwd)/certs:/etc/certbot ukfast/certbot-dns-safedns:latest 
+docker run -it -v $(pwd)/safedns.ini:/safedns.ini -v /etc/letsencrypt:/etc/letsencrypt -v /var/lib/letsencrypt:/var/lib/letsencrypt ukfast/certbot-dns-safedns:latest 
 ```
 
 ## Setup
