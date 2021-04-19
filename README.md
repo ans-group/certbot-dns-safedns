@@ -1,53 +1,52 @@
-# SafeDNS Authenticator plugin for Certbot
+# ukfast/certbot-dns-safedns
 
-## Quickstart
+## About
+This container uses the SafeDNS Authenticator plugin for Certbot. It utilizes API calls to create and remove DNS TXT records for SSL validation.
+
+## How to use this image
+
+1, Creat the /etc/letsencrypt to house your configuration and your certificates
 ```bash
-docker run -it -v $(pwd)/safedns.ini:/safedns.ini -v /etc/letsencrypt:/etc/letsencrypt -v /var/lib/letsencrypt:/var/lib/letsencrypt ukfast/certbot-dns-safedns:latest <certbot args>
+mkdir -p /etc/letsencrypt
 ```
 
-## Setup
-
-```bash
-apt install certbot python3-pip
-pip3 install --upgrade certbot-dns-safedns
+2, Create the /etc/letsencrypt/safedns.ini configuration file with the below content
+```
+certbot_dns_safedns:dns_safedns_auth_token = <YOUR API KEY HERE>
+certbot_dns_safedns:dns_safedns_propagation_seconds = 60
 ```
 
-## Execution
-
+3, Set permissions for the newly created configuration file
 ```bash
-certbot certonly --authenticator dns_safedns
+chmod 0600 /etc/letsencrypt/safedns.ini
 ```
 
-> **Warning**: certbot might tell you that it doesn't have permissions to write to its log file. However, if you run certbot as sudo, you won't have access to the safedns plugin if you didn't install the plugin as sudo.
-
-This will result in the following error from certbot:
-
+4, Test run the container
 ```bash
-Could not choose appropriate plugin: The requested dns_safedns plugin does not appear to be installed
+docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest certonly -d yourdomain.com --test-cert --agree-tos --email email@yourdomain.com --no-eff-email
 ```
 
-To get around this just do:
+## Usage examples
 
+### Verify current certificates
 ```bash
-sudo pip3 install --upgrade certbot-dns-safedns
-sudo certbot certonly --authenticator dns_safedns
+docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest certificates
 ```
 
-If you get any python cryptography errors, such as:
-
+### Delete a certificate
 ```bash
-ContextualVersionConflict: ...
+docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest delete --cert-name yourdomain.com
 ```
 
-just make sure to upgrade your pyopenssl.
-
+### Renew all certificates
 ```bash
-sudo pip install --upgrade pyopenssl
+docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest renew
 ```
 
+## About the certbot-dns-safedns Plugin
 ### Credentials and Config Options
 
-Use of this plugin can be simplified by using a configuration file containing SafeDNS API credentials, obtained from your MyUKFast [account page](https://my.ukfast.co.uk/applications/index.php). See also the [SafeDNS API](https://developers.ukfast.io/documentation/safedns) documentation.
+Use of the plugin can be simplified by using a configuration file containing SafeDNS API credentials, obtained from your MyUKFast [account page](https://my.ukfast.co.uk/applications/index.php). See also the [SafeDNS API](https://developers.ukfast.io/documentation/safedns) documentation.
 
 An example ``safedns.ini`` file:
 
@@ -62,7 +61,7 @@ The path to this file can be provided interactively or using the `--dns_safedns-
 
 Certbot will emit a warning if it detects that the credentials file can be accessed by other users on your system. The warning reads "Unsafe permissions on credentials configuration file", followed by the path to the credentials file. This warning will be emitted each time Certbot uses the credentials file, including for renewal, and cannot be silenced except by addressing the issue (e.g., by using a command like `chmod 600` to restrict access to the file).
 
-### Examples
+### Plugin Examples
 
 To acquire a single certificate for both `example.com` and `*.example.com`, waiting 900 seconds for DNS propagation:
 
@@ -74,25 +73,3 @@ certbot certonly \
   -d 'example.com' \
   -d '*.example.com'
 ```
-
-## Build
-
-The package for the safedns plugin is hosted on pypi here: <https://pypi.org/project/certbot-dns-safedns/>
-
-To build and upload the package from source, first ensure you've increased the version number in ```setup.py```.
-
-Delete the ```build``` ```dist``` and ```.egg-info``` dirs if they are present from a previous build.
-
-Then run:
-
-```bash
-python3 setup.py sdist bdist_wheel
-```
-
-## Deployment
-
-```bash
-python3 -m twine upload dist/*
-```
-
-> **Warning**: Use the username: `__token__`, along with the token registered on pypi.
