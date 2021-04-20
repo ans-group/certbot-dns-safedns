@@ -25,24 +25,41 @@ chmod 0600 /etc/letsencrypt/safedns.ini
 
 4, Test run the container
 ```bash
-docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest certonly -d yourdomain.com --test-cert --agree-tos --email email@yourdomain.com --no-eff-email
+docker run -it \
+  -v /etc/letsencrypt:/etc/letsencrypt \
+  ukfast/certbot-dns-safedns:latest \
+    certonly \
+      -d yourdomain.com \
+      --agree-tos \
+      --no-eff-email \
+      --email email@yourdomain.com \
+      --test-cert
 ```
 
 ### Usage examples
 
 #### Verify current certificates
 ```bash
-docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest certificates
+docker run -it \
+  -v /etc/letsencrypt:/etc/letsencrypt \
+  ukfast/certbot-dns-safedns:latest \
+    certificates
 ```
 
 #### Delete a certificate
 ```bash
-docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest delete --cert-name yourdomain.com
+docker run -it \
+  -v /etc/letsencrypt:/etc/letsencrypt \
+  ukfast/certbot-dns-safedns:latest \
+    delete --cert-name yourdomain.com
 ```
 
 #### Renew all certificates
 ```bash
-docker run -it -v /etc/letsencrypt:/etc/letsencrypt ukfast/certbot-dns-safedns:latest renew
+docker run -it \
+  -v /etc/letsencrypt:/etc/letsencrypt \
+  ukfast/certbot-dns-safedns:latest \
+    renew
 ```
 
 ## The `certbot-dns-safedns` Plugin
