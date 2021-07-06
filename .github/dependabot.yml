@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Maintain dependencies for Pip
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  # Maintain dependencies for Docker (if any)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
