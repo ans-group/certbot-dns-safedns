@@ -16,7 +16,7 @@ josepy==1.5.0
 mock==4.0.2
 parsedatetime==2.6
 pycparser==2.20
-pyOpenSSL==19.1.0
+pyOpenSSL==20.0.1
 pyRFC3339==1.1
 pytz==2020.4
 PyYAML==5.3.1
