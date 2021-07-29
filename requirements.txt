@@ -19,7 +19,7 @@ pycparser==2.20
 pyOpenSSL==19.1.0
 pyRFC3339==1.1
 pytz==2020.4
-PyYAML==5.3.1
+PyYAML==5.4
 requests==2.24.0
 requests-file==1.5.1
 requests-toolbelt==0.9.1
