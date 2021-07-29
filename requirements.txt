@@ -11,7 +11,7 @@ distro==1.5.0
 dns-lexicon==3.5.3
 filelock==3.0.12
 future==0.18.2
-idna==2.10
+idna==3.2
 josepy==1.5.0
 mock==4.0.2
 parsedatetime==2.6
