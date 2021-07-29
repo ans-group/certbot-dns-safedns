@@ -1,4 +1,0 @@
-# Remember to update setup.py to match the package versions below.
-acme==1.17.0
-certbot==1.17.0
-dns-lexicon==3.6.1
