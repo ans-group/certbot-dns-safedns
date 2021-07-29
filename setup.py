@@ -7,9 +7,9 @@ version = 'vX.X.X'
 # Remember to update local-oldest-requirements.txt when changing the minimum
 # acme/certbot version.
 install_requires = [
-    'acme>=1.17.0',
-    'certbot>=1.17.0',
-    'dns-lexicon>=3.6.1',  # Includes SafeDNS support
+    'acme>=0.31.0',
+    'certbot>=0.34.0',
+    'dns-lexicon>=3.2.8',  # Includes SafeDNS support
     'mock',
     'setuptools',
     'zope.interface',
