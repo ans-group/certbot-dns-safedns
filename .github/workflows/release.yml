@@ -1,0 +1,22 @@
+name: Deploy to PyPi
+on:  
+  push:
+    tags:
+      - '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Build and deploy
+        run: |
+          echo $GITHUB_REF > VERSION
+          pip install twine
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
