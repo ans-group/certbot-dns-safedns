@@ -1,0 +1,43 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Get previous release tag
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
+      - name: Format previous release tag
+        id: tagformat
+        run: |
+          previous_tag=$(echo ${{steps.previoustag.outputs.tag}} | cut -c2-)
+          echo "::set-output name=previous_tag::$previous_tag"
+          
+      - name: Bump release version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ steps.tagformat.outputs.previous_tag }}
+          version-fragment: 'bug'
+          
+      - name: Echo new release tag
+        run: echo This release will be tagged as v${{ steps.bump_version.outputs.next-version }}
+
+      - name: Build and deploy
+        run: |
+          echo v${{ steps.bump_version.outputs.next-version }} > VERSION
+          python3 setup.py sdist bdist_wheel
+          python -m twine upload dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
