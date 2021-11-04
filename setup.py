@@ -1,26 +1,21 @@
 from setuptools import setup
 from setuptools import find_packages
 
-
-version = 'vX.X.X'
-
-# Remember to update local-oldest-requirements.txt when changing the minimum
-# acme/certbot version.
-install_requires = [
-    'acme>=0.31.0',
-    'certbot>=0.34.0',
-    'dns-lexicon>=3.2.8',  # Includes SafeDNS support
-    'mock',
-    'setuptools',
-    'zope.interface',
-]
+# Get version
+with open('VERSION', 'r') as version_file:
+    version = version_file.read().strip()
+    
+# Get requirements
+with open('requirements.txt', 'r') as requirements_file:
+    requirements = [requirement for requirement in requirements_file.read().split('\n')
+                    if len(requirement)]
 
 docs_extras = [
     'Sphinx>=1.0',  # autodoc_member_order = 'bysource', autodoc_default_flags
     'sphinx_rtd_theme',
 ]
 
-# read the contents of your README file
+# Get readme contents
 from os import path
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md')) as f:
@@ -29,14 +24,14 @@ with open(path.join(this_directory, 'README.md')) as f:
 setup(
     name='certbot-dns-safedns',
     version=version,
-    description="SafeDNS Authenticator plugin for Certbot",
+    description='SafeDNS Authenticator plugin for Certbot',
     long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/ukfast/certbot-dns-safedns",
-    author="UKFast R&D Team",
+    long_description_content_type='text/markdown',
+    url='https://github.com/ukfast/certbot-dns-safedns',
+    author='UKFast R&D Team',
     author_email='support@ukfast.co.uk',
     license='MIT',
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
+    python_requires='>=3.0, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Plugins',
@@ -44,8 +39,6 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
@@ -59,7 +52,7 @@ setup(
         'Topic :: System :: Systems Administration',
         'Topic :: Utilities',
     ],
-
+    data_files=[('', ['VERSION', 'requirements.txt', 'setup.py'])],
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
