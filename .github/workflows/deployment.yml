@@ -36,8 +36,9 @@ jobs:
       - name: Build and deploy
         run: |
           echo v${{ steps.bump_version.outputs.next-version }} > VERSION
+          pip install twine
           python3 setup.py sdist bdist_wheel
-          python -m twine upload dist/*
+          python3 -m twine upload dist/*
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
