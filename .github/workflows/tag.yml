@@ -4,9 +4,8 @@ on:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
-  workflow_dispatch:
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -40,3 +39,13 @@ jobs:
           release_name: Release v${{ steps.bump_version.outputs.next-version }}
           draft: false
           prerelease: false
+          
+      - name: Build and deploy
+        run: |
+          echo v${{ steps.bump_version.outputs.next-version }} > VERSION
+          pip install twine
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
