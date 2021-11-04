@@ -1,8 +1,8 @@
 name: Deploy to PyPi
-on:  
-  push:
-    tags:
-      - '*'
+on:
+  release:
+    types: 
+      - created
 jobs:
   build:
     runs-on: ubuntu-latest
