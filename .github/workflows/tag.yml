@@ -1,4 +1,4 @@
-name: CI
+name: Tag Release
 on:
   push:
     branches: [ master, main ]
@@ -29,9 +29,14 @@ jobs:
         with:
           current-version: ${{ steps.tagformat.outputs.previous_tag }}
           version-fragment: 'bug'
-          
-      - name: Echo new release tag
-        run: echo This release will be tagged as v${{ steps.bump_version.outputs.next-version }}
         
-      - name: Tag release
-        run: git tag -a v${{ steps.bump_version.outputs.next-version }} -m "Release v${{ steps.bump_version.outputs.next-version }}"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.bump_version.outputs.next-version }}
+          release_name: Release v${{ steps.bump_version.outputs.next-version }}
+          draft: false
+          prerelease: false
