@@ -30,6 +30,7 @@ jobs:
           version-fragment: 'bug'
         
       - name: Create Release
+        if: github.event_name == 'push'
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -41,6 +42,7 @@ jobs:
           prerelease: false
           
       - name: Build and deploy
+        if: github.event_name == 'push'
         run: |
           echo v${{ steps.bump_version.outputs.next-version }} > VERSION
           pip install twine
