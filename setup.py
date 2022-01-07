@@ -31,7 +31,7 @@ setup(
     author='UKFast R&D Team',
     author_email='support@ukfast.co.uk',
     license='MIT',
-    python_requires='>=3.0, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
+    python_requires='>=3.7',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Plugins',
