@@ -27,9 +27,9 @@ setup(
     description='SafeDNS Authenticator plugin for Certbot',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/ukfast/certbot-dns-safedns',
-    author='UKFast R&D Team',
-    author_email='support@ukfast.co.uk',
+    url='https://github.com/ans-group/certbot-dns-safedns',
+    author='ANS Group Product Team',
+    author_email='support@ans.co.uk',
     license='MIT',
     python_requires='>=3.7',
     classifiers=[
