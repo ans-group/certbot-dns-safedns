@@ -1,6 +1,6 @@
 # SafeDNS Authenticator plugin for Certbot
 
-## `ukfast/certbot-dns-safedns` - Docker image
+## `ans-group/certbot-dns-safedns` - Docker image
 
 ### About
 This container uses the SafeDNS Authenticator plugin for Certbot. It utilizes API calls to create and remove DNS TXT records for domain ownership validation.
@@ -14,8 +14,8 @@ mkdir -p /etc/letsencrypt
 
 2, Create the `/etc/letsencrypt/safedns.ini` configuration file with the below content
 ```
-certbot_dns_safedns:dns_safedns_auth_token = <YOUR API KEY HERE>
-certbot_dns_safedns:dns_safedns_propagation_seconds = 60
+dns_safedns_auth_token = <YOUR API KEY HERE>
+dns_safedns_propagation_seconds = 60
 ```
 
 3, Set permissions for the newly created configuration file
@@ -27,7 +27,7 @@ chmod 0600 /etc/letsencrypt/safedns.ini
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ukfast/certbot-dns-safedns:latest \
+  ans-group/certbot-dns-safedns:latest \
     certonly \
       -d yourdomain.com \
       --agree-tos \
@@ -42,7 +42,7 @@ docker run -it \
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ukfast/certbot-dns-safedns:latest \
+  ans-group/certbot-dns-safedns:latest \
     certificates
 ```
 
@@ -50,7 +50,7 @@ docker run -it \
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ukfast/certbot-dns-safedns:latest \
+  ans-group/certbot-dns-safedns:latest \
     delete --cert-name yourdomain.com
 ```
 
@@ -58,7 +58,7 @@ docker run -it \
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ukfast/certbot-dns-safedns:latest \
+  ans-group/certbot-dns-safedns:latest \
     renew
 ```
 
@@ -106,7 +106,7 @@ sudo pip install --upgrade pyopenssl
 
 #### Credentials and Config Options
 
-Use of this plugin can be simplified by using a configuration file containing SafeDNS API credentials, obtained from your MyUKFast [account page](https://my.ukfast.co.uk/applications/index.php). See also the [SafeDNS API](https://developers.ukfast.io/documentation/safedns) documentation.
+Use of this plugin can be simplified by using a configuration file containing SafeDNS API credentials, obtained from your ANS Portal [account page](https://portal.ans.co.uk/applications/index.php). See also the [SafeDNS API](https://developers.ukfast.io/documentation/safedns) documentation.
 
 An example `safedns.ini` file:
 
