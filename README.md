@@ -1,6 +1,6 @@
 # SafeDNS Authenticator plugin for Certbot
 
-## `/certbot-dns-safedns` - Docker image
+## `ans-group/certbot-dns-safedns` - Docker image
 
 ### About
 This container uses the SafeDNS Authenticator plugin for Certbot. It utilizes API calls to create and remove DNS TXT records for domain ownership validation.
