@@ -1,11 +1,11 @@
-FROM python:3.10.8-alpine AS build
+FROM python:3.11.0-alpine AS build
 
 RUN apk add --no-cache py3-pip alpine-sdk libffi-dev
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install certbot certbot-dns-safedns
 
-FROM python:3.10.8-alpine
+FROM python:3.11.0-alpine
 COPY --from=build /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
