@@ -1,6 +1,6 @@
 # SafeDNS Authenticator plugin for Certbot
 
-## `ans-group/certbot-dns-safedns` - Docker image
+## `ansgroup/certbot-dns-safedns` - Docker image
 
 ### About
 This container uses the SafeDNS Authenticator plugin for Certbot. It utilizes API calls to create and remove DNS TXT records for domain ownership validation.
@@ -27,7 +27,7 @@ chmod 0600 /etc/letsencrypt/safedns.ini
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ans-group/certbot-dns-safedns:latest \
+  ansgroup/certbot-dns-safedns:latest \
     certonly \
       -d yourdomain.com \
       --agree-tos \
@@ -42,7 +42,7 @@ docker run -it \
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ans-group/certbot-dns-safedns:latest \
+  ansgroup/certbot-dns-safedns:latest \
     certificates
 ```
 
@@ -50,7 +50,7 @@ docker run -it \
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ans-group/certbot-dns-safedns:latest \
+  ansgroup/certbot-dns-safedns:latest \
     delete --cert-name yourdomain.com
 ```
 
@@ -58,7 +58,7 @@ docker run -it \
 ```bash
 docker run -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
-  ans-group/certbot-dns-safedns:latest \
+  ansgroup/certbot-dns-safedns:latest \
     renew
 ```
 
