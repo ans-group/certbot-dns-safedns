@@ -1,53 +1,41 @@
 """Tests for certbot_dns_safedns.dns_safedns."""
+import sys
+from unittest import mock
 
-import unittest
-
-import mock
-from requests.exceptions import HTTPError, RequestException
+import pytest
+from requests import Response
+from requests.exceptions import HTTPError
 
 from certbot.compat import os
 from certbot.plugins import dns_test_common
 from certbot.plugins import dns_test_common_lexicon
 from certbot.tests import util as test_util
 
-DOMAIN_NOT_FOUND = Exception('No domain found')
-GENERIC_ERROR = RequestException
-LOGIN_ERROR = HTTPError('400 Client Error: ...')
-
 AUTH_TOKEN = 'foo'
 
 
 class AuthenticatorTest(test_util.TempDirTestCase,
-                        dns_test_common_lexicon.BaseLexiconAuthenticatorTest):
+                        dns_test_common_lexicon.BaseLexiconDNSAuthenticatorTest):
+
+    DOMAIN_NOT_FOUND = Exception('No domain found')
+    LOGIN_ERROR = HTTPError('400 Client Error: ...', response=Response())
 
     def setUp(self):
-        super(AuthenticatorTest, self).setUp()
+        super().setUp()
 
         from certbot_dns_safedns.dns_safedns import Authenticator
 
         path = os.path.join(self.tempdir, 'file.ini')
-        dns_test_common.write({"safedns_auth_token": AUTH_TOKEN}, path)
+        credentials = {
+            "safedns_auth_token": AUTH_TOKEN,
+        }
+        dns_test_common.write(credentials, path)
 
         self.config = mock.MagicMock(safedns_credentials=path,
                                      safedns_propagation_seconds=0)  # don't wait during tests
 
-        self.auth = Authenticator(self.config, "safedns")
-
-        self.mock_client = mock.MagicMock()
-        # _get_safedns_client | pylint: disable=protected-access
-        self.auth._get_safedns_client = mock.MagicMock(return_value=self.mock_client)
-
-
-class SafeDNSLexiconClientTest(unittest.TestCase, dns_test_common_lexicon.BaseLexiconClientTest):
-
-    def setUp(self):
-        from certbot_dns_safedns.dns_safedns import _SafeDNSLexiconClient
-
-        self.client = _SafeDNSLexiconClient(AUTH_TOKEN, 0)
-
-        self.provider_mock = mock.MagicMock()
-        self.client.provider = self.provider_mock
+        self.auth = Authenticator(self.config, 'safedns')
 
 
 if __name__ == "__main__":
-    unittest.main()  # pragma: no cover
+    sys.exit(pytest.main(sys.argv[1:] + [__file__]))  # pragma: no cover

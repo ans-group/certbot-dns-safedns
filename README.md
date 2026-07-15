@@ -138,20 +138,21 @@ certbot certonly \
 
 The package for the SafeDNS plugin is hosted on PyPI here: <https://pypi.org/project/certbot-dns-safedns/>
 
-To build and upload the package from source, first ensure you've increased the version number in `setup.py`.
+The package version is generated automatically by CI from a `VERSION` file (not committed to source control) and is not set manually.
 
 Delete the `build`, `dist` and `.egg-info` directories if they are present from a previous build.
 
 Then run:
 
 ```bash
-python3 setup.py sdist bdist_wheel
+echo "0.0.0" > VERSION  # placeholder, CI writes the real release version
+uv build
 ```
 
 ### Deployment
 
 ```bash
-python3 -m twine upload dist/*
+uv publish
 ```
 
 > **Warning**: Use the username: `__token__`, along with the token registered on PyPI.
