@@ -57,6 +57,23 @@ jobs:
           UV_PUBLISH_USERNAME: ${{ secrets.TWINE_USERNAME }}
           UV_PUBLISH_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
 
+      - name: Wait for PyPI package availability
+        if: github.event_name == 'push'
+        run: |
+          version="${{ steps.bump_version.outputs.next-version }}"
+          for attempt in $(seq 1 30); do
+            # Query the same simple-repository index uv/pip use to resolve packages,
+            # rather than the JSON API, since that's what actually needs to be in sync.
+            if curl -fsS "https://pypi.org/simple/certbot-dns-safedns/" | grep -q "certbot_dns_safedns-${version}[.-]"; then
+              echo "certbot-dns-safedns==${version} is available on PyPI"
+              exit 0
+            fi
+            echo "Attempt ${attempt}: certbot-dns-safedns==${version} not yet available on PyPI, waiting..."
+            sleep 10
+          done
+          echo "Timed out waiting for certbot-dns-safedns==${version} to become available on PyPI" >&2
+          exit 1
+
       - name: Set up QEMU
         if: github.event_name == 'push'
         uses: docker/setup-qemu-action@v4.2.0
