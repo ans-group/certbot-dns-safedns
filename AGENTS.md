@@ -1,17 +1,17 @@
 # AGENTS.md
 
 ## What this is
-A Certbot DNS authenticator plugin (`certbot-dns-safedns`) for UKFast/ANS SafeDNS, using `dns-lexicon`'s SafeDNS provider under the hood via Certbot's `LexiconDNSAuthenticator` base class. Also published as a Docker image (`ans-group/certbot-dns-safedns`) that wraps `certbot` with this plugin pre-installed.
+A Certbot DNS authenticator plugin (`certbot-dns-safedns`) for UKFast/ANS SafeDNS, using `dns-lexicon`'s SafeDNS provider under the hood via Certbot's `LexiconDNSAuthenticator` base class. Also published as a multi-arch (linux/amd64,linux/arm64) Docker image (`ansgroup/certbot-dns-safedns` on Docker Hub) that wraps `certbot` with this plugin pre-installed.
 
 ## Layout
 - `certbot_dns_safedns/dns_safedns.py` — the `Authenticator` plugin (entry point `dns_safedns`), subclassing `certbot.plugins.dns_common_lexicon.LexiconDNSAuthenticator`.
 - `certbot_dns_safedns/dns_safedns_test.py` — unit tests, built on `certbot.plugins.dns_test_common_lexicon.BaseLexiconDNSAuthenticatorTest`.
 - `pyproject.toml` — packaging metadata and dependencies (managed with `uv`); version is read from a `VERSION` file (not committed — generated at release time).
 - `local-oldest-requirements.txt` — pinned floor versions of `acme`/`certbot`/`dns-lexicon` (plus compatible `josepy`/`pyopenssl` pins) used by CI to test the oldest supported dependency versions.
-- `Dockerfile` — builds the container image on top of `python:3.13-alpine` using `uv`, installing `certbot` + this package from PyPI (not from local source).
+- `Dockerfile` — builds the container image on top of `python:3.13-alpine` using `uv`, installing `certbot` + this package from PyPI (not from local source), pinned to the exact just-published version via the `CERTBOT_DNS_SAFEDNS_VERSION` build-arg.
 - `.gitlab-ci.yml` — legacy GitLab deploy pipeline (builds/uploads to PyPI on tag via `uv build`/`uv publish`).
 - `.github/workflows/test.yml` — runs `pytest` via `uv` across supported Python versions (3.10-3.13) plus the oldest-supported dependency floor; also callable as a reusable workflow.
-- `.github/workflows/tag.yml` — GitHub Actions release flow: on push to `master`/`main`, runs `test.yml` as a gate, bumps semver, creates a GitHub release, writes `VERSION`, and uploads to PyPI via `uv publish`.
+- `.github/workflows/tag.yml` — GitHub Actions release flow: on push to `master`/`main`, runs `test.yml` as a gate, bumps semver, creates a GitHub release, writes `VERSION`, uploads to PyPI via `uv publish`, polls PyPI's simple index until the new version has propagated, then builds/pushes a multi-arch Docker image to Docker Hub (`ansgroup/certbot-dns-safedns`, authenticated as `ansdevops`).
 
 ## Making changes
 - Core logic lives in `dns_safedns.py`; keep it consistent with certbot's `dns_common_lexicon.LexiconDNSAuthenticator` plugin conventions (see upstream plugins like `certbot-dns-ovh` for reference patterns).
@@ -24,3 +24,4 @@ A Certbot DNS authenticator plugin (`certbot-dns-safedns`) for UKFast/ANS SafeDN
 ## Release/CI
 - Two parallel release pipelines exist (GitLab CI and GitHub Actions) — both publish to PyPI on tag/push. Be cautious changing one without checking the other still makes sense.
 - The GitHub Actions release (`tag.yml`) is gated on the `test.yml` workflow passing first.
+- `tag.yml` also builds and pushes the Docker image after publishing to PyPI — it waits for the new version to appear on PyPI's simple index before building, since the Docker build installs the package from PyPI rather than from local source. Requires the `DOCKERHUB_TOKEN` secret (Docker Hub org: `ansgroup`).
