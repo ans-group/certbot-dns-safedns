@@ -9,14 +9,16 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           
       - name: Get previous release tag
         id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        uses: "WyriHaximus/github-action-get-previous-tag@v2"
 
       - name: Format previous release tag
         id: tagformat
@@ -26,7 +28,7 @@ jobs:
           
       - name: Bump release version
         id: bump_version
-        uses: christian-draeger/increment-semantic-version@1.0.2
+        uses: christian-draeger/increment-semantic-version@1.2.3
         with:
           current-version: ${{ steps.tagformat.outputs.previous_tag }}
           version-fragment: 'bug'
@@ -34,18 +36,16 @@ jobs:
       - name: Create Release
         if: github.event_name == 'push'
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.bump_version.outputs.next-version }}
-          release_name: Release v${{ steps.bump_version.outputs.next-version }}
+          name: Release v${{ steps.bump_version.outputs.next-version }}
           draft: false
           prerelease: false
           
       - name: Install uv
         if: github.event_name == 'push'
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v8.3.2
 
       - name: Build and deploy
         if: github.event_name == 'push'
