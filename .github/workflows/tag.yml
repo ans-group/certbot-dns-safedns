@@ -82,5 +82,5 @@ jobs:
           build-args: |
             CERTBOT_DNS_SAFEDNS_VERSION=${{ steps.bump_version.outputs.next-version }}
           tags: |
-            ans-group/certbot-dns-safedns:v${{ steps.bump_version.outputs.next-version }}
-            ans-group/certbot-dns-safedns:latest
+            ansgroup/certbot-dns-safedns:v${{ steps.bump_version.outputs.next-version }}
+            ansgroup/certbot-dns-safedns:latest
