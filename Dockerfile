@@ -1,11 +1,12 @@
-FROM python:3.10.8-alpine AS build
+FROM python:3.13-alpine AS build
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-RUN apk add --no-cache py3-pip alpine-sdk libffi-dev
-RUN python3 -m venv /opt/venv
+RUN apk add --no-cache alpine-sdk libffi-dev
+RUN uv venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN pip install certbot certbot-dns-safedns
+RUN uv pip install --python /opt/venv/bin/python certbot certbot-dns-safedns
 
-FROM python:3.10.8-alpine
+FROM python:3.13-alpine
 COPY --from=build /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 

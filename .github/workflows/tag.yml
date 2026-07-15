@@ -3,10 +3,14 @@ on:
   push:
     branches: [ master, main ]
 jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           
@@ -39,13 +43,16 @@ jobs:
           draft: false
           prerelease: false
           
+      - name: Install uv
+        if: github.event_name == 'push'
+        uses: astral-sh/setup-uv@v3
+
       - name: Build and deploy
         if: github.event_name == 'push'
         run: |
           echo v${{ steps.bump_version.outputs.next-version }} > VERSION
-          pip install twine
-          python3 setup.py sdist bdist_wheel
-          python3 -m twine upload dist/*
+          uv build
+          uv publish
         env:
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          UV_PUBLISH_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          UV_PUBLISH_PASSWORD: ${{ secrets.TWINE_PASSWORD }}

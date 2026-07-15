@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "certbot-dns-safedns"
+dynamic = ["version"]
+description = "SafeDNS Authenticator plugin for Certbot"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "ANS Group Product Team", email = "support@ans.co.uk" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
+    "Intended Audience :: System Administrators",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: Name Service (DNS)",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Security",
+    "Topic :: System :: Installation/Setup",
+    "Topic :: System :: Networking",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "acme>=2.7.0",
+    "certbot>=2.7.0",
+    "dns-lexicon>=3.14.0",
+]
+
+[project.optional-dependencies]
+docs = [
+    "Sphinx>=1.0", # autodoc_member_order = 'bysource', autodoc_default_flags
+    "sphinx_rtd_theme",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
+[project.urls]
+Homepage = "https://github.com/ans-group/certbot-dns-safedns"
+
+[project.entry-points."certbot.plugins"]
+dns_safedns = "certbot_dns_safedns.dns_safedns:Authenticator"
+
+[tool.setuptools]
+packages = ["certbot_dns_safedns"]
+
+[tool.setuptools.dynamic]
+version = { file = "VERSION" }
