@@ -5,6 +5,6 @@
 # releases remove APIs that acme/certbot 2.7.0 still relies on).
 acme==2.7.0
 certbot==2.7.0
-dns-lexicon==3.14.0
+dns-lexicon==3.25.2
 josepy<2.0
 pyopenssl<25
