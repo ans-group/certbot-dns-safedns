@@ -7,4 +7,4 @@ acme==2.7.0
 certbot==2.7.0
 dns-lexicon==3.14.0
 josepy<2.0
-pyopenssl<25
+pyopenssl<27
