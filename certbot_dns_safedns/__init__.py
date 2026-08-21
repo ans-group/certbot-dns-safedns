@@ -59,7 +59,7 @@ Examples
 
    certbot certonly \\
      --dns-safedns \\
-   --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
+     --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
      -d example.com
 
 .. code-block:: bash
@@ -68,7 +68,7 @@ Examples
 
    certbot certonly \\
      --dns-safedns \\
-   --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
+     --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
      -d example.com \\
      -d www.example.com
 
@@ -78,8 +78,8 @@ Examples
 
    certbot certonly \\
      --dns-safedns \\
-   --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
-   --dns_safedns-propagation-seconds 60 \\
+     --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
+     --dns_safedns-propagation-seconds 60 \\
      -d example.com
 
 """
