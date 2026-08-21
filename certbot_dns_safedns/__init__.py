@@ -8,9 +8,9 @@ Named Arguments
 ---------------
 
 ========================================  =====================================
-``--dns-safedns-credentials``            SafeDNS credentials_ INI file.
+``--dns_safedns-credentials``            SafeDNS credentials_ INI file.
                                           (Required)
-``--dns-safedns-propagation-seconds``    The number of seconds to wait for DNS
+``--dns_safedns-propagation-seconds``    The number of seconds to wait for DNS
                                           to propagate before asking the ACME
                                           server to verify the DNS record.
                                           (Default: 30)
@@ -32,7 +32,7 @@ credentials, obtained from your SafeDNS
    dns_safedns_auth_token = 1234567890abcdef1234567890abcdef
 
 The path to this file can be provided interactively or using the
-``--dns-safedns-credentials`` command-line argument. Certbot records the path
+``--dns_safedns-credentials`` command-line argument. Certbot records the path
 to this file for use during renewal, but does not store the file's contents.
 
 .. caution::
@@ -59,7 +59,7 @@ Examples
 
    certbot certonly \\
      --dns-safedns \\
-     --dns-safedns-credentials ~/.secrets/certbot/safedns.ini \\
+     --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
      -d example.com
 
 .. code-block:: bash
@@ -68,7 +68,7 @@ Examples
 
    certbot certonly \\
      --dns-safedns \\
-     --dns-safedns-credentials ~/.secrets/certbot/safedns.ini \\
+     --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
      -d example.com \\
      -d www.example.com
 
@@ -78,8 +78,8 @@ Examples
 
    certbot certonly \\
      --dns-safedns \\
-     --dns-safedns-credentials ~/.secrets/certbot/safedns.ini \\
-     --dns-safedns-propagation-seconds 60 \\
+     --dns_safedns-credentials ~/.secrets/certbot/safedns.ini \\
+     --dns_safedns-propagation-seconds 60 \\
      -d example.com
 
 """
