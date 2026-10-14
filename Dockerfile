@@ -1,4 +1,4 @@
-FROM python:3.13-alpine AS build
+FROM python:3.14-alpine AS build
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 ARG CERTBOT_DNS_SAFEDNS_VERSION=""
@@ -8,7 +8,7 @@ RUN uv venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN uv pip install --python /opt/venv/bin/python certbot "certbot-dns-safedns${CERTBOT_DNS_SAFEDNS_VERSION:+==${CERTBOT_DNS_SAFEDNS_VERSION}}"
 
-FROM python:3.13-alpine
+FROM python:3.14-alpine
 COPY --from=build /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 

@@ -5,6 +5,16 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    ignore:
+      # local-oldest-requirements.txt deliberately pins these to versions that
+      # work with acme/certbot 2.7.0 (the oldest supported). Newer josepy (>=2)
+      # and pyopenssl (>=25) remove APIs (e.g. OpenSSL.crypto.X509Req) that
+      # acme 2.7.0 still uses, which breaks the oldest-supported CI job.
+      - dependency-name: "josepy"
+      - dependency-name: "pyopenssl"
+      # Pinned in local-oldest-requirements.txt to the floor in pyproject.toml
+      # (>=3.14.0) so CI tests the oldest supported version. Raise both by hand.
+      - dependency-name: "dns-lexicon"
 
   # Maintain dependencies for Docker (if any)
   - package-ecosystem: "docker"
