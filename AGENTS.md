@@ -10,7 +10,7 @@ A Certbot DNS authenticator plugin (`certbot-dns-safedns`) for UKFast/ANS SafeDN
 - `local-oldest-requirements.txt` — pinned floor versions of `acme`/`certbot`/`dns-lexicon` (plus compatible `josepy`/`pyopenssl` pins) used by CI to test the oldest supported dependency versions.
 - `Dockerfile` — builds the container image on top of `python:3.13-alpine` using `uv`, installing `certbot` + this package from PyPI (not from local source), pinned to the exact just-published version via the `CERTBOT_DNS_SAFEDNS_VERSION` build-arg.
 - `.gitlab-ci.yml` — legacy GitLab deploy pipeline (builds/uploads to PyPI on tag via `uv build`/`uv publish`).
-- `.github/workflows/test.yml` — runs `pytest` via `uv` across supported Python versions (3.10-3.13) plus the oldest-supported dependency floor; also callable as a reusable workflow.
+- `.github/workflows/test.yml` — runs `pytest` via `uv` across supported Python versions (3.11-3.14) plus the oldest-supported dependency floor; also callable as a reusable workflow.
 - `.github/workflows/tag.yml` — GitHub Actions release flow: on push to `master`/`main`, runs `test.yml` as a gate, bumps semver, creates a GitHub release, writes `VERSION`, uploads to PyPI via `uv publish`, polls PyPI's simple index until the new version has propagated, then builds/pushes a multi-arch Docker image to Docker Hub (`ansgroup/certbot-dns-safedns`, authenticated as `ansdevops`).
 
 ## Making changes
